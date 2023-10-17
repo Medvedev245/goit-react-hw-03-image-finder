@@ -3,8 +3,10 @@ import { Toaster } from 'react-hot-toast';
 import { Searchbar } from './Searchbar/Searchbar';
 import { Container } from './App.styled';
 import { fetchImages } from '../Api';
+import { Pagination } from './LoadMore/LoadMore';
 import { Loader } from './Loader/Loader';
 import { notifyInfo, notifyInputQuerry, success } from './Notify/Notify';
+import { Gallery } from './ImageGallery/ImageGallery';
 
 export class App extends Component {
   state = {
@@ -79,8 +81,11 @@ export class App extends Component {
     return (
       <Container>
         <Searchbar onSubmit={this.handleSubmit} />
-        {/* { loading && <Loader /> } */}
-        { images.length > 0 && <Gallery imgItems={ images } /> } 
+        {loading && <Loader />}
+        {images.length > 0 && <Gallery imgItems={images} />}
+        {images.length > 0 && (
+          <Pagination onClick={this.handleLoadMore}>Load More</Pagination>
+        )}
         <Toaster position="top-center" reverseOrder={true} />
       </Container>
     );
