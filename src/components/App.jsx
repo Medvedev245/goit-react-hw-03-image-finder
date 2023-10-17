@@ -42,12 +42,10 @@ export class App extends Component {
     try {
       this.setState({ loading: true });
       const img = await fetchImages(searchQuery, nexPage);
-      console.log(img);
       if (img.length) {
         this.setState(prevState => ({
           images: this.state.page > 1 ? [...prevState.images, ...img] : img,
         }));
-        console.log(img);
         success(searchQuery);
         this.setState({ loading: false });
       } else {
@@ -67,12 +65,10 @@ export class App extends Component {
   };
 
   handleSubmit = evt => {
-    console.log(evt.query);
     if (evt.query === '') {
       notifyInputQuerry();
       return;
     }
-    console.log(evt);
     this.changeQuery(evt.query);
   };
 

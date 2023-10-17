@@ -17,7 +17,6 @@ export const fetchImages = async (query, page) => {
         per_page: 12,
       },
     });
-    console.log(response.data.hits);
     return response.data.hits;
   } catch (error) {
     console.log(error);
