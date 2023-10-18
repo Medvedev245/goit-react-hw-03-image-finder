@@ -15,6 +15,7 @@ export class App extends Component {
     page: 1,
     loading: false,
     isEmpty: true,
+    showBtn: false,
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -30,21 +31,20 @@ export class App extends Component {
 
   loadResult = async () => {
     const { query, page } = this.state;
-    if (query) {
-      this.setState({ isEmpty: false });
-    }
 
     try {
       this.setState({ loading: true });
       const img = await fetchImages(query, page);
-      if (this.state.isEmpty) {
-        notifyInfo();
-      } else {
-        this.setState(prevState => ({
-          images: [...prevState.images, ...img],
-        }));
-        success(query);
-      }
+
+      this.setState(prevState => ({
+        images: [...prevState.images, ...img.hits],
+
+        // this.state.page < Math.ceil(img./12)
+      }));
+      this.setState({
+        showBtn: this.state.page < Math.ceil(img.totalHits / 12),
+      });
+      success(query);
     } catch (error) {
       console.log(error);
     } finally {
@@ -68,17 +68,18 @@ export class App extends Component {
       query: evt.query,
       images: [],
       page: 1,
+      isEmpty: false,
     });
   };
 
   render() {
-    const { loading, images, isEmpty } = this.state;
+    const { loading, images, isEmpty, showBtn } = this.state;
     return (
       <Container>
         <Searchbar onSubmit={this.handleSubmit} />
         {loading && <Loader />}
         {!isEmpty && <Gallery imgItems={images} />}
-        {images.length > 11 && (
+        {showBtn && (
           <Pagination onClick={this.handleLoadMore}>Load More</Pagination>
         )}
         <Toaster position="top-center" reverseOrder={true} />
