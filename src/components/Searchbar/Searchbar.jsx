@@ -10,7 +10,6 @@ const nameSchema = Yup.object().shape({
 });
 
 export const Searchbar = props => {
-  // console.log(props);
   return (
     <Search>
       <Formik
@@ -19,7 +18,6 @@ export const Searchbar = props => {
         }}
         validationSchema={nameSchema}
         onSubmit={(values, actions) => {
-          console.log(values);
           props.onSubmit(values);
           actions.resetForm();
         }}
