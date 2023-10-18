@@ -28,6 +28,8 @@ export class GalleryImage extends Component {
     isModalOpen: false,
   };
 
+  // toggleModal = () => this.setState({ isModalOpen: prevState ?? });
+
   openModal = () => this.setState({ isModalOpen: true });
   closeModal = () => this.setState({ isModalOpen: false });
 
@@ -42,6 +44,7 @@ export class GalleryImage extends Component {
           load="lazy"
           onClick={this.openModal}
         />
+
         <Modal
           isOpen={isModalOpen}
           onRequestClose={this.closeModal}

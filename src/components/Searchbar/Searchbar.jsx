@@ -19,6 +19,7 @@ export const Searchbar = props => {
         }}
         validationSchema={nameSchema}
         onSubmit={(values, actions) => {
+          console.log(values);
           props.onSubmit(values);
           actions.resetForm();
         }}

@@ -14,6 +14,7 @@ export class App extends Component {
     images: [],
     page: 1,
     loading: false,
+    isEmpty: true,
   };
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -27,33 +28,26 @@ export class App extends Component {
     }
   };
 
-  changeQuery = newQuery => {
-    this.setState({
-      query: `${Date.now()}/${newQuery}`,
-      images: [],
-      page: 1,
-    });
-  };
-
   loadResult = async () => {
-    const searchQuery = this.state.query;
-    const nexPage = this.state.page;
+    const { query, page } = this.state;
+    if (query) {
+      this.setState({ isEmpty: false });
+    }
 
     try {
       this.setState({ loading: true });
-      const img = await fetchImages(searchQuery, nexPage);
-      if (img.length) {
-        this.setState(prevState => ({
-          images: this.state.page > 1 ? [...prevState.images, ...img] : img,
-        }));
-        success(searchQuery);
-        this.setState({ loading: false });
-      } else {
+      const img = await fetchImages(query, page);
+      if (this.state.isEmpty) {
         notifyInfo();
-        this.setState({ loading: false });
+      } else {
+        this.setState(prevState => ({
+          images: [...prevState.images, ...img],
+        }));
+        success(query);
       }
     } catch (error) {
       console.log(error);
+    } finally {
       this.setState({ loading: false });
     }
   };
@@ -67,19 +61,24 @@ export class App extends Component {
   handleSubmit = evt => {
     if (evt.query === '') {
       notifyInputQuerry();
+
       return;
     }
-    this.changeQuery(evt.query);
+    this.setState({
+      query: evt.query,
+      images: [],
+      page: 1,
+    });
   };
 
   render() {
-    const { loading, images } = this.state;
+    const { loading, images, isEmpty } = this.state;
     return (
       <Container>
         <Searchbar onSubmit={this.handleSubmit} />
         {loading && <Loader />}
-        {images.length > 0 && <Gallery imgItems={images} />}
-        {images.length > 0 && (
+        {!isEmpty && <Gallery imgItems={images} />}
+        {images.length > 11 && (
           <Pagination onClick={this.handleLoadMore}>Load More</Pagination>
         )}
         <Toaster position="top-center" reverseOrder={true} />

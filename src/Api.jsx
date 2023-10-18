@@ -5,7 +5,7 @@ axios.defaults.baseURL = `https://pixabay.com/api/`;
 
 export const fetchImages = async (query, page) => {
   const separated = query.split('/');
-  const exstractedQuery = separated[1];
+  const exstractedQuery = separated[0];
   try {
     const response = await axios.get('', {
       params: {
