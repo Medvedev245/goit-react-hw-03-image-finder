@@ -23,7 +23,6 @@ const customStyles = {
 
 export const ModalWindow = props => {
   const { isOpen, onRequestClose, largeImageURL, tags } = props;
-  console.log(isOpen);
   return (
     <div>
       <Modal
