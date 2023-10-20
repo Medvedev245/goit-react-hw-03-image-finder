@@ -5,7 +5,7 @@ import { Container } from './App.styled';
 import { fetchImages } from '../Api';
 import { Pagination } from './LoadMore/LoadMore';
 import { Loader } from './Loader/Loader';
-import { notifyInfo, notifyInputQuerry, success } from './Notify/Notify';
+import { notifyInputQuerry, success } from './Notify/Notify';
 import { Gallery } from './ImageGallery/ImageGallery';
 
 export class App extends Component {
@@ -38,12 +38,13 @@ export class App extends Component {
 
       this.setState(prevState => ({
         images: [...prevState.images, ...img.hits],
-
-        // this.state.page < Math.ceil(img./12)
       }));
+
+      // this.state.page < Math.ceil(img / 12),
       this.setState({
         showBtn: this.state.page < Math.ceil(img.totalHits / 12),
       });
+
       success(query);
     } catch (error) {
       console.log(error);
