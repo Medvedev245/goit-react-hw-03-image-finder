@@ -32,7 +32,7 @@ export class GalleryImage extends Component {
           largeImageURL={largeImageURL}
           tags={tags}
         >
-          <img src={largeImageURL} alt={tags} />
+          {/* <img src={largeImageURL} alt={tags} /> */}
         </ModalWindow>
       </div>
     );

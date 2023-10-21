@@ -38,12 +38,8 @@ export class App extends Component {
 
       this.setState(prevState => ({
         images: [...prevState.images, ...img.hits],
-      }));
-
-      // this.state.page < Math.ceil(img / 12),
-      this.setState({
         showBtn: this.state.page < Math.ceil(img.totalHits / 12),
-      });
+      }));
 
       success(query);
     } catch (error) {
